@@ -1,0 +1,4 @@
+Django>=4.2,<5.0
+djangorestframework>=3.14,<4.0  # If you're using DRF (optional)
+gunicorn>=20.0.4  # For deploying on platforms like Heroku (optional)
+psycopg2>=2.9.6  # If you're using PostgreSQL (optional)
