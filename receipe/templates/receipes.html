@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Your Recipe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f8f8;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      min-width: 300px; /* Minimum width */
+      max-width: 600px; /* Maximum width */
+      margin: 0 auto; /* Center the form horizontally */
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+      color: black;
+    }
+    .recipe-image {
+      height: 150px;
+      width: 150px;
+      object-fit: cover; /* This will ensure the image covers the given dimensions without distorting */
+      border-radius: 8px; /* Optional: To give the images rounded corners */
+      border: 1px solid #ddd; /* Optional: To give the images a subtle border */
+    }
+    td a.btn {
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: #b30214;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px; /* Add some spacing between buttons */
+    }
+
+    td a.btn:hover {
+      background-color: #da4956;
+    }
+    td a.btn-update {
+      background-color: #4CAF50;
+    }
+
+    td a.btn-update:hover {
+      background-color: #58e258;
+    }
+    nav {
+      background-color: #333;
+      padding: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      background-color: #b30214;
+      border-radius: 4px;
+    }
+    nav a:hover {
+      background-color: #da4956;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/logout/">Logout</a>
+  </nav>
+
+  <form id="recipeForm" method="post" enctype="multipart/form-data">
+    <h2>Add Your Recipe</h2>
+    {% csrf_token %}
+    <label for="recipeName">Recipe Name:</label>
+    <input type="text" id="recipeName" name="recipeName" required><br>
+
+    <label for="recipeDescription">Description:</label>
+    <textarea id="recipeDescription" name="recipeDescription" rows="5" required></textarea><br>
+
+    <label for="recipeImage">Image:</label>
+    <input type="file" id="recipeImage" name="recipeImage" required><br>
+
+    <button type="submit">Submit Recipe</button>
+  </form>
+  
+  <h2>All Recipes</h2>
+  <table>
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Recipe Name</th>
+              <th>Description</th>
+              <th>Image</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for recipe in recepies %}
+          <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ recipe.name }}</td>
+              <td>{{ recipe.description }}</td>
+              {% if recipe.image %}
+                <td><img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-image"></td>
+              {% else %}
+              <td>No image available</td>
+          {% endif %}
+              <td>
+                <a href="/delete_recipe/{{ recipe.id }}" class="btn btn-danger">Delete</a>
+                <a href="/update_recipe/{{ recipe.id }}" class="btn btn-update">Update</a>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  
+  <script>
+    function toggleRecipe(element) {
+      element.classList.toggle('expanded');
+    }
+  </script>
+</body>
+</html>

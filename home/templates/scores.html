@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semester Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+            color: black;
+        }
+        .outstanding-performance {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .excellent-performance {
+            background-color: #2196F3;
+            color: white;
+        }
+        .very-good-performance {
+            background-color: #FFC107;
+            color: white;
+        }
+        .good-performance {
+            background-color: #FF9800;
+            color: white;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #4CAF50;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Semester III Results</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks</th>
+                    <th>Performance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.subject }}</td>
+                    <td>{{ result.marks }}</td>
+                    <td class="{% if result.marks == 100 %}outstanding-performance{% elif result.marks >= 95 %}excellent-performance{% elif result.marks >= 90 %}very-good-performance{% else %}good-performance{% endif %}">
+                        {% if result.marks == 100 %}
+                            Outstanding
+                        {% elif result.marks >= 95 %}
+                            Excellent
+                        {% elif result.marks >= 90 %}
+                            Very Good
+                        {% else %}
+                            Good
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="footer">
+            <p>&copy; 2024 Your University. All Rights Reserved.</p>
+        </div>
+    </div>
+    <script>
+        console.log('Django')
+    </script>
+</body>
+</html>
